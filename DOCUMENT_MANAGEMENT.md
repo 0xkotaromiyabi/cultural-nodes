@@ -341,5 +341,6 @@ print(result['answer'])
 
 ---
 
-Selamat! Sistem Anda sekarang memiliki **Knowledge Base Management** yang lengkap dengan kesadaran epistemik! 🎉
+Selamat! Sistem Anda sekarang memiliki **Knowledge Base Management** yang lengkap dengan kesadaran epistemik!
+
 
