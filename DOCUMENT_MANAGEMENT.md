@@ -1,12 +1,12 @@
 # Document Category Management - Usage Guide
 
-## 🎯 Overview
+## Overview
 
 Sistem sekarang memiliki fasilitas lengkap untuk mengelola dokumen berdasarkan kategori sumber (Community, Academic, Media, Archival). Ini memastikan setiap dokumen tersimpan di folder yang tepat untuk ekstraksi metadata epistemik yang akurat.
 
 ---
 
-## 📁 Folder Structure
+## Folder Structure
 
 ```
 knowledge_base/
@@ -21,7 +21,7 @@ knowledge_base/
 
 ---
 
-## 🌐 Web Interface (Recommended)
+## Web Interface (Recommended)
 
 ### Access
 
@@ -39,11 +39,11 @@ knowledge_base/
 
 ### Features
 
-✅ **Drag & Drop Upload** - Seret file langsung ke area upload
-✅ **Visual Source Cards** - Pilih kategori dengan klik card
-✅ **Real-time Feedback** - Status upload dan error handling
-✅ **Text Input** - Input teks langsung tanpa file
-✅ **Auto-categorization** - File otomatis tersimpan ke folder yang sesuai
+ **Drag & Drop Upload** - Seret file langsung ke area upload
+ **Visual Source Cards** - Pilih kategori dengan klik card
+ **Real-time Feedback** - Status upload dan error handling
+ **Text Input** - Input teks langsung tanpa file
+ **Auto-categorization** - File otomatis tersimpan ke folder yang sesuai
 
 ### How to Use
 
@@ -61,7 +61,7 @@ knowledge_base/
 
 ---
 
-## 🔌 API Endpoints
+##  API Endpoints
 
 ### 1. Upload File dengan Kategori
 
@@ -159,7 +159,7 @@ curl -X POST http://localhost:8000/api/ingest/directory \
 
 ---
 
-## 🎨 Source Type Mapping
+##  Source Type Mapping
 
 Setiap `source_type` otomatis mengekstrak metadata epistemik yang berbeda:
 
@@ -172,29 +172,29 @@ Setiap `source_type` otomatis mengekstrak metadata epistemik yang berbeda:
 
 ---
 
-## 📝 Best Practices
+##  Best Practices
 
 ### 1. Pilih Source Type yang Tepat
 
-✅ **Community:**
+ **Community:**
 - Manifesto komunitas
 - Transkrip diskusi
 - Catatan lokal
 - Dokumentasi grassroots
 
-✅ **Academic:**
+ **Academic:**
 - Paper penelitian
 - Thesis/disertasi
 - Jurnal ilmiah
 - Buku akademik
 
-✅ **Media:**
+ **Media:**
 - Artikel berita
 - Blog post
 - Wawancara media
 - Op-ed
 
-✅ **Archival:**
+ **Archival:**
 - Dokumen resmi
 - Arsip institusional
 - Laporan historis
@@ -203,10 +203,10 @@ Setiap `source_type` otomatis mengekstrak metadata epistemik yang berbeda:
 ### 2. Konsistensi Penamaan
 
 Gunakan nama file yang deskriptif:
-- ✅ `penelitian-teknologi-digital-indonesia.pdf`
-- ✅ `diskusi-komunitas-tech-yogyakarta.txt`
-- ❌ `doc1.pdf`
-- ❌ `untitled.txt`
+- `penelitian-teknologi-digital-indonesia.pdf`
+- `diskusi-komunitas-tech-yogyakarta.txt`
+- `doc1.pdf`
+- `untitled.txt`
 
 ### 3. Tag Kategori
 
@@ -216,7 +216,7 @@ Gunakan tag yang konsisten untuk filtering:
 
 ---
 
-## 🧪 Testing the Feature
+##  Testing the Feature
 
 ### Test 1: Upload Academic Paper
 
@@ -264,7 +264,7 @@ curl -X POST http://localhost:8000/api/cultural/search \
 
 ---
 
-## 🔍 Verification Checklist
+##  Verification Checklist
 
 After uploading documents, verify:
 
@@ -287,7 +287,7 @@ sqlite3 data/cultural_knowledge.db "SELECT source_type, COUNT(*) FROM documents 
 
 ---
 
-## 🎯 Integration with Cultural Retrieval
+##  Integration with Cultural Retrieval
 
 Dokumen yang diupload dengan kategori akan otomatis:
 
@@ -316,7 +316,7 @@ print(result['answer'])
 
 ---
 
-## 🚀 Next Steps
+##  Next Steps
 
 1. **Upload Real Documents:** Mulai upload dokumen real ke kategori yang sesuai
 2. **Test Cultural Query:** Coba query dengan filter source_type berbeda
@@ -325,7 +325,7 @@ print(result['answer'])
 
 ---
 
-## 📞 Troubleshooting
+##  Troubleshooting
 
 **File tidak terdeteksi sumbersource:**
 - Pastikan menggunakan `source_type` parameter
@@ -342,3 +342,4 @@ print(result['answer'])
 ---
 
 Selamat! Sistem Anda sekarang memiliki **Knowledge Base Management** yang lengkap dengan kesadaran epistemik! 🎉
+
