@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cultural AI - Knowledge Assistant</title>
     <link rel="stylesheet" href="static/css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600;700&family=SF+Pro+Text:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600;700&family=SF+Pro+Text:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
     <div class="app-container">
         <!-- Sidebar -->
@@ -18,7 +22,7 @@
                     <span>Cultural AI</span>
                 </div>
             </div>
-            
+
             <nav class="sidebar-nav">
                 <button class="nav-item active" data-view="chat">
                     <span class="nav-icon">💬</span>
@@ -33,7 +37,7 @@
                     <span>Analyze</span>
                 </button>
             </nav>
-            
+
             <div class="sidebar-footer">
                 <div class="status-indicator">
                     <span class="status-dot"></span>
@@ -41,7 +45,7 @@
                 </div>
             </div>
         </aside>
-        
+
         <!-- Main Content -->
         <main class="main-content">
             <!-- Chat View -->
@@ -56,13 +60,15 @@
                     <div class="window-title">Chat with Cultural AI</div>
                     <div class="window-actions">
                         <button class="clear-chat-btn" title="Clear Chat">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path
+                                    d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2" />
                             </svg>
                         </button>
                     </div>
                 </div>
-                
+
                 <!-- Chat Messages -->
                 <div class="chat-container">
                     <div class="messages-container" id="messages">
@@ -84,18 +90,17 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Chat Input -->
                 <div class="chat-input-container">
                     <div class="input-wrapper">
-                        <textarea 
-                            id="chat-input" 
+                        <textarea id="chat-input"
                             placeholder="Tanyakan sesuatu tentang cultural studies, sastra, atau linguistik..."
-                            rows="1"
-                        ></textarea>
+                            rows="1"></textarea>
                         <button class="send-btn" id="send-btn" disabled>
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
                             </svg>
                         </button>
                     </div>
@@ -104,7 +109,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Knowledge Base View -->
             <div class="view knowledge-view" id="knowledge-view">
                 <div class="window-titlebar">
@@ -116,7 +121,7 @@
                     <div class="window-title">Knowledge Base</div>
                     <div class="window-actions"></div>
                 </div>
-                
+
                 <div class="knowledge-container">
                     <div class="kb-header">
                         <h2>📚 Manage Knowledge Base</h2>
@@ -124,7 +129,7 @@
                             <span class="stat-badge">Loading...</span>
                         </div>
                     </div>
-                    
+
                     <div class="kb-sections">
                         <!-- Add Text -->
                         <div class="kb-section">
@@ -133,9 +138,25 @@
                                 <input type="text" id="text-title" placeholder="Title" class="mac-input">
                             </div>
                             <div class="form-group">
-                                <textarea id="text-content" placeholder="Paste or type text content here..." class="mac-textarea" rows="4"></textarea>
+                                <textarea id="text-content" placeholder="Paste or type text content here..."
+                                    class="mac-textarea" rows="4"></textarea>
                             </div>
                             <div class="form-group">
+                                <label
+                                    style="font-size: 13px; color: #666; font-weight: 500; margin-bottom: 6px; display: block;">Source
+                                    Type (Epistemic)</label>
+                                <select id="text-source-type" class="mac-select">
+                                    <option value="general">General</option>
+                                    <option value="community">👥 Community (Manifesto, Transkrip)</option>
+                                    <option value="academic">🎓 Academic (Paper, Penelitian)</option>
+                                    <option value="media">📰 Media (Artikel, Berita)</option>
+                                    <option value="archival">📦 Archival (Dokumen Arsip)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label
+                                    style="font-size: 13px; color: #666; font-weight: 500; margin-bottom: 6px; display: block;">Category
+                                    Tag</label>
                                 <select id="text-category" class="mac-select">
                                     <option value="cultural">Cultural Studies</option>
                                     <option value="literary">Sastra</option>
@@ -145,14 +166,30 @@
                             </div>
                             <button class="mac-btn primary" id="add-text-btn">Add to Knowledge Base</button>
                         </div>
-                        
+
                         <!-- Add URL -->
                         <div class="kb-section">
                             <h3>🌐 Add from URL</h3>
                             <div class="form-group">
-                                <input type="url" id="url-input" placeholder="https://example.com/article" class="mac-input">
+                                <input type="url" id="url-input" placeholder="https://example.com/article"
+                                    class="mac-input">
                             </div>
                             <div class="form-group">
+                                <label
+                                    style="font-size: 13px; color: #666; font-weight: 500; margin-bottom: 6px; display: block;">Source
+                                    Type (Epistemic)</label>
+                                <select id="url-source-type" class="mac-select">
+                                    <option value="media" selected>📰 Media (Default for URLs)</option>
+                                    <option value="general">General</option>
+                                    <option value="community">👥 Community</option>
+                                    <option value="academic">🎓 Academic</option>
+                                    <option value="archival">📦 Archival</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label
+                                    style="font-size: 13px; color: #666; font-weight: 500; margin-bottom: 6px; display: block;">Category
+                                    Tag</label>
                                 <select id="url-category" class="mac-select">
                                     <option value="web">Web</option>
                                     <option value="cultural">Cultural Studies</option>
@@ -162,7 +199,7 @@
                             </div>
                             <button class="mac-btn primary" id="add-url-btn">Fetch & Add</button>
                         </div>
-                        
+
                         <!-- Upload File -->
                         <div class="kb-section">
                             <h3>📄 Upload File</h3>
@@ -173,6 +210,21 @@
                                 <input type="file" id="file-input" accept=".pdf,.md,.markdown,.txt" hidden>
                             </div>
                             <div class="form-group">
+                                <label
+                                    style="font-size: 13px; color: #666; font-weight: 500; margin-bottom: 6px; display: block;">Source
+                                    Type (Epistemic)</label>
+                                <select id="file-source-type" class="mac-select">
+                                    <option value="general">General</option>
+                                    <option value="community">👥 Community (Manifesto, Transkrip)</option>
+                                    <option value="academic">🎓 Academic (Paper, Penelitian)</option>
+                                    <option value="media">📰 Media (Artikel, Berita)</option>
+                                    <option value="archival">📦 Archival (Dokumen Arsip)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label
+                                    style="font-size: 13px; color: #666; font-weight: 500; margin-bottom: 6px; display: block;">Category
+                                    Tag</label>
                                 <select id="file-category" class="mac-select">
                                     <option value="general">General</option>
                                     <option value="cultural">Cultural Studies</option>
@@ -185,7 +237,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Analyze View -->
             <div class="view analyze-view" id="analyze-view">
                 <div class="window-titlebar">
@@ -197,16 +249,17 @@
                     <div class="window-title">Deep Analysis</div>
                     <div class="window-actions"></div>
                 </div>
-                
+
                 <div class="analyze-container">
                     <div class="analyze-input-section">
                         <h2>🔍 Analyze a Topic</h2>
                         <p>Get in-depth analysis on cultural, literary, or linguistic topics</p>
-                        
+
                         <div class="form-group">
-                            <input type="text" id="analyze-topic" placeholder="Enter a topic to analyze..." class="mac-input large">
+                            <input type="text" id="analyze-topic" placeholder="Enter a topic to analyze..."
+                                class="mac-input large">
                         </div>
-                        
+
                         <div class="analysis-type-selector">
                             <label class="type-option">
                                 <input type="radio" name="analysis-type" value="cultural" checked>
@@ -223,10 +276,10 @@
                                 </span>
                             </label>
                         </div>
-                        
+
                         <button class="mac-btn primary large" id="analyze-btn">Start Analysis</button>
                     </div>
-                    
+
                     <div class="analyze-result-section" id="analyze-result" style="display: none;">
                         <h3>Analysis Result</h3>
                         <div class="result-content" id="analyze-content"></div>
@@ -236,10 +289,11 @@
             </div>
         </main>
     </div>
-    
+
     <!-- Toast Notification -->
     <div class="toast-container" id="toast-container"></div>
-    
+
     <script src="static/js/app.js"></script>
 </body>
+
 </html>

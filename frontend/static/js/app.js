@@ -29,39 +29,42 @@ const elements = {
     // Navigation
     navItems: document.querySelectorAll('.nav-item'),
     views: document.querySelectorAll('.view'),
-    
+
     // Status
     statusDot: document.querySelector('.status-dot'),
     statusText: document.querySelector('.status-text'),
-    
+
     // Chat
     messagesContainer: document.getElementById('messages'),
     chatInput: document.getElementById('chat-input'),
     sendBtn: document.getElementById('send-btn'),
     clearChatBtn: document.querySelector('.clear-chat-btn'),
     quickActions: document.querySelectorAll('.quick-action'),
-    
+
     // Knowledge Base
     kbStats: document.getElementById('kb-stats'),
     textTitle: document.getElementById('text-title'),
     textContent: document.getElementById('text-content'),
+    textSourceType: document.getElementById('text-source-type'),
     textCategory: document.getElementById('text-category'),
     addTextBtn: document.getElementById('add-text-btn'),
     urlInput: document.getElementById('url-input'),
+    urlSourceType: document.getElementById('url-source-type'),
     urlCategory: document.getElementById('url-category'),
     addUrlBtn: document.getElementById('add-url-btn'),
     fileUploadArea: document.getElementById('file-upload-area'),
     fileInput: document.getElementById('file-input'),
+    fileSourceType: document.getElementById('file-source-type'),
     fileCategory: document.getElementById('file-category'),
     uploadFileBtn: document.getElementById('upload-file-btn'),
-    
+
     // Analyze
     analyzeTopic: document.getElementById('analyze-topic'),
     analyzeBtn: document.getElementById('analyze-btn'),
     analyzeResult: document.getElementById('analyze-result'),
     analyzeContent: document.getElementById('analyze-content'),
     analyzeSources: document.getElementById('analyze-sources'),
-    
+
     // Toast
     toastContainer: document.getElementById('toast-container')
 };
@@ -75,7 +78,7 @@ function showToast(message, type = 'info') {
     toast.className = `toast ${type}`;
     toast.innerHTML = `<span>${message}</span>`;
     elements.toastContainer.appendChild(toast);
-    
+
     setTimeout(() => {
         toast.style.animation = 'toastSlide 0.3s ease reverse';
         setTimeout(() => toast.remove(), 300);
@@ -137,7 +140,7 @@ async function sendChatMessage(question) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ question, k: 4, temperature: 0.7 })
         });
-        
+
         if (!response.ok) throw new Error('API request failed');
         return await response.json();
     } catch (error) {
@@ -145,38 +148,39 @@ async function sendChatMessage(question) {
     }
 }
 
-async function ingestText(text, title, category) {
+async function ingestText(text, title, category, source_type) {
     const response = await fetch(`${API_BASE_URL}/api/ingest/text`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text, title, category })
+        body: JSON.stringify({ text, title, category, source_type })
     });
-    
+
     if (!response.ok) throw new Error('Failed to ingest text');
     return await response.json();
 }
 
-async function ingestUrl(url, category) {
+async function ingestUrl(url, category, source_type) {
     const response = await fetch(`${API_BASE_URL}/api/ingest/url`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url, category })
+        body: JSON.stringify({ url, category, source_type })
     });
-    
+
     if (!response.ok) throw new Error('Failed to ingest URL');
     return await response.json();
 }
 
-async function uploadFile(file, category) {
+async function uploadFile(file, category, source_type) {
     const formData = new FormData();
     formData.append('file', file);
     formData.append('category', category);
-    
+    formData.append('source_type', source_type);
+
     const response = await fetch(`${API_BASE_URL}/api/ingest/file`, {
         method: 'POST',
         body: formData
     });
-    
+
     if (!response.ok) throw new Error('Failed to upload file');
     return await response.json();
 }
@@ -187,7 +191,7 @@ async function analyzeTopicAPI(topic, analysisType) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ topic, analysis_type: analysisType })
     });
-    
+
     if (!response.ok) throw new Error('Analysis failed');
     return await response.json();
 }
@@ -198,15 +202,15 @@ async function analyzeTopicAPI(topic, analysisType) {
 
 function switchView(viewName) {
     state.currentView = viewName;
-    
+
     elements.navItems.forEach(item => {
         item.classList.toggle('active', item.dataset.view === viewName);
     });
-    
+
     elements.views.forEach(view => {
         view.classList.toggle('active', view.id === `${viewName}-view`);
     });
-    
+
     if (viewName === 'knowledge') {
         fetchStats();
     }
@@ -216,10 +220,10 @@ function addMessage(content, type, sources = []) {
     // Hide welcome message
     const welcome = elements.messagesContainer.querySelector('.welcome-message');
     if (welcome) welcome.style.display = 'none';
-    
+
     const messageDiv = document.createElement('div');
     messageDiv.className = `message message-${type}`;
-    
+
     if (type === 'user') {
         messageDiv.innerHTML = `
             <div class="message-content">
@@ -229,7 +233,7 @@ function addMessage(content, type, sources = []) {
     } else {
         let sourcesHtml = '';
         if (sources.length > 0) {
-            const sourceTags = sources.map(s => 
+            const sourceTags = sources.map(s =>
                 `<span class="source-tag">${s.filename || s.url || 'Unknown'}</span>`
             ).join('');
             sourcesHtml = `
@@ -238,7 +242,7 @@ function addMessage(content, type, sources = []) {
                 </div>
             `;
         }
-        
+
         messageDiv.innerHTML = `
             <div class="message-avatar">🎓</div>
             <div class="message-content">
@@ -247,7 +251,7 @@ function addMessage(content, type, sources = []) {
             </div>
         `;
     }
-    
+
     elements.messagesContainer.appendChild(messageDiv);
     elements.messagesContainer.scrollTop = elements.messagesContainer.scrollHeight;
 }
@@ -295,7 +299,7 @@ function clearChat() {
             </div>
         </div>
     `;
-    
+
     // Re-attach quick action listeners
     document.querySelectorAll('.quick-action').forEach(btn => {
         btn.addEventListener('click', () => {
@@ -304,7 +308,7 @@ function clearChat() {
             handleSendMessage();
         });
     });
-    
+
     state.messages = [];
 }
 
@@ -315,18 +319,18 @@ function clearChat() {
 async function handleSendMessage() {
     const question = elements.chatInput.value.trim();
     if (!question || state.isLoading) return;
-    
+
     state.isLoading = true;
     elements.sendBtn.disabled = true;
     elements.chatInput.value = '';
     autoResizeTextarea(elements.chatInput);
-    
+
     // Add user message
     addMessage(question, 'user');
-    
+
     // Add typing indicator
     const typingIndicator = addTypingIndicator();
-    
+
     try {
         const response = await sendChatMessage(question);
         removeTypingIndicator(typingIndicator);
@@ -344,19 +348,20 @@ async function handleAddText() {
     const text = elements.textContent.value.trim();
     const title = elements.textTitle.value.trim() || 'Untitled';
     const category = elements.textCategory.value;
-    
+    const source_type = elements.textSourceType.value;
+
     if (!text || text.length < 10) {
         showToast('Please enter at least 10 characters', 'warning');
         return;
     }
-    
+
     try {
         elements.addTextBtn.disabled = true;
         elements.addTextBtn.textContent = 'Adding...';
-        
-        await ingestText(text, title, category);
-        
-        showToast(`Added "${title}" to knowledge base`, 'success');
+
+        const result = await ingestText(text, title, category, source_type);
+
+        showToast(`✅ Added "${title}" to ${source_type} knowledge base`, 'success');
         elements.textContent.value = '';
         elements.textTitle.value = '';
         fetchStats();
@@ -371,19 +376,20 @@ async function handleAddText() {
 async function handleAddUrl() {
     const url = elements.urlInput.value.trim();
     const category = elements.urlCategory.value;
-    
+    const source_type = elements.urlSourceType.value;
+
     if (!url) {
         showToast('Please enter a URL', 'warning');
         return;
     }
-    
+
     try {
         elements.addUrlBtn.disabled = true;
         elements.addUrlBtn.textContent = 'Fetching...';
-        
-        await ingestUrl(url, category);
-        
-        showToast('URL content added to knowledge base', 'success');
+
+        const result = await ingestUrl(url, category, source_type);
+
+        showToast(`✅ URL content added as ${source_type}`, 'success');
         elements.urlInput.value = '';
         fetchStats();
     } catch (error) {
@@ -399,16 +405,17 @@ async function handleFileUpload() {
         showToast('Please select a file', 'warning');
         return;
     }
-    
+
     const category = elements.fileCategory.value;
-    
+    const source_type = elements.fileSourceType.value;
+
     try {
         elements.uploadFileBtn.disabled = true;
         elements.uploadFileBtn.textContent = 'Uploading...';
-        
-        await uploadFile(state.selectedFile, category);
-        
-        showToast(`Uploaded "${state.selectedFile.name}"`, 'success');
+
+        const result = await uploadFile(state.selectedFile, category, source_type);
+
+        showToast(`✅ Uploaded "${state.selectedFile.name}" as ${source_type}`, 'success');
         state.selectedFile = null;
         elements.fileUploadArea.querySelector('p').textContent = 'Drag & drop files here or click to browse';
         fetchStats();
@@ -423,29 +430,29 @@ async function handleFileUpload() {
 async function handleAnalyze() {
     const topic = elements.analyzeTopic.value.trim();
     const analysisType = document.querySelector('input[name="analysis-type"]:checked').value;
-    
+
     if (!topic) {
         showToast('Please enter a topic', 'warning');
         return;
     }
-    
+
     try {
         elements.analyzeBtn.disabled = true;
         elements.analyzeBtn.textContent = 'Analyzing...';
-        
+
         const result = await analyzeTopicAPI(topic, analysisType);
-        
+
         elements.analyzeContent.innerHTML = `<p>${formatMarkdown(result.analysis)}</p>`;
-        
+
         if (result.sources && result.sources.length > 0) {
-            const sourceTags = result.sources.map(s => 
+            const sourceTags = result.sources.map(s =>
                 `<span class="source-tag">${s.filename || s.url || 'Unknown'}</span>`
             ).join('');
             elements.analyzeSources.innerHTML = `<strong>Sources:</strong> ${sourceTags}`;
         } else {
             elements.analyzeSources.innerHTML = '';
         }
-        
+
         elements.analyzeResult.style.display = 'block';
     } catch (error) {
         showToast('Analysis failed', 'error');
@@ -464,23 +471,23 @@ function initEventListeners() {
     elements.navItems.forEach(item => {
         item.addEventListener('click', () => switchView(item.dataset.view));
     });
-    
+
     // Chat input
     elements.chatInput.addEventListener('input', () => {
         autoResizeTextarea(elements.chatInput);
         elements.sendBtn.disabled = !elements.chatInput.value.trim();
     });
-    
+
     elements.chatInput.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
             handleSendMessage();
         }
     });
-    
+
     elements.sendBtn.addEventListener('click', handleSendMessage);
     elements.clearChatBtn.addEventListener('click', clearChat);
-    
+
     // Quick actions
     elements.quickActions.forEach(btn => {
         btn.addEventListener('click', () => {
@@ -489,12 +496,12 @@ function initEventListeners() {
             handleSendMessage();
         });
     });
-    
+
     // Knowledge Base
     elements.addTextBtn.addEventListener('click', handleAddText);
     elements.addUrlBtn.addEventListener('click', handleAddUrl);
     elements.uploadFileBtn.addEventListener('click', handleFileUpload);
-    
+
     // File upload
     elements.fileUploadArea.addEventListener('click', () => elements.fileInput.click());
     elements.fileUploadArea.addEventListener('dragover', (e) => {
@@ -517,7 +524,7 @@ function initEventListeners() {
             handleFileSelect(e.target.files[0]);
         }
     });
-    
+
     // Analyze
     elements.analyzeBtn.addEventListener('click', handleAnalyze);
     elements.analyzeTopic.addEventListener('keydown', (e) => {
@@ -530,12 +537,12 @@ function initEventListeners() {
 function handleFileSelect(file) {
     const allowedTypes = ['.pdf', '.md', '.markdown', '.txt'];
     const ext = '.' + file.name.split('.').pop().toLowerCase();
-    
+
     if (!allowedTypes.includes(ext)) {
         showToast('Please select a PDF, Markdown, or Text file', 'warning');
         return;
     }
-    
+
     state.selectedFile = file;
     elements.fileUploadArea.querySelector('p').textContent = file.name;
     elements.uploadFileBtn.disabled = false;
@@ -547,7 +554,7 @@ function handleFileSelect(file) {
 
 async function init() {
     initEventListeners();
-    
+
     // Check connection
     const connected = await checkConnection();
     if (connected) {
@@ -556,7 +563,7 @@ async function init() {
     } else {
         showToast('Cannot connect to server. Start the backend first.', 'warning');
     }
-    
+
     // Periodic connection check
     setInterval(checkConnection, 30000);
 }

@@ -1,0 +1,21 @@
+# Sample document untuk testing Cultural Nodes architecture
+
+Ini adalah contoh teks untuk menguji sistem Cultural Nodes yang baru.
+
+## Konsep Teknologi Lokal
+
+Teknologi tidak bisa dipisahkan dari konteks budaya. Ketika teknologi digital masuk ke komunitas lokal, ada proses adaptasi dan negosiasi yang terjadi.
+
+Oleh karena itu, penting untuk mempertimbangkan bagaimana teknologi dapat disesuaikan dengan nilai-nilai lokal, bukan sebaliknya.
+
+## Kritik terhadap Teknologi
+
+Namun, kita juga harus kritis terhadap narasi yang mengatakan bahwa teknologi selalu membawa kemajuan. Ada banyak contoh dimana teknologi justru memperdalam ketimpangan kekuasaan.
+
+Sebagai contoh, platform media sosial sering kali memperkuat dominasi bahasa dan budaya tertentu.
+
+## Pertanyaan Penting
+
+Bagaimana kita bisa memastikan bahwa pengembangan teknologi tidak hanya menguntungkan pihak tertentu?
+
+Teknologi adalah alat yang netral - kuncinya adalah siapa yang mengendalikan dan untuk tujuan apa.

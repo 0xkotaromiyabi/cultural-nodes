@@ -1,0 +1,32 @@
+Transkrip Diskusi: "Teknologi untuk Siapa?"
+Forum Komunitas Tech Merdeka - 15 Januari 2026
+
+Moderator: Selamat datang di diskusi komunitas kita hari ini. Topiknya adalah "Teknologi untuk Siapa?" Mari kita mulai dengan Mbak Dini.
+
+Dini: Terima kasih. Saya ingin berbagi pengalaman dari komunitas kami di Yogyakarta. Kami mencoba mengembangkan aplikasi pasar lokal, tapi selalu ada hambatan. Teknologi yang tersedia kebanyakan dirancang untuk konteks global, bukan untuk kebutuhan lokal kita.
+
+Bagaimana kita bisa membuat teknologi yang benar-benar melayani komunitas, bukan sebaliknya?
+
+Arya: Setuju dengan Mbak Dini. Di komunitas saya di Bandung, kami punya pengalaman serupa. Teknologi seharusnya adalah alat pemberdayaan, bukan alat dominasi. Tapi kenyataannya, banyak solusi teknologi justru memperkuat ketimpangan.
+
+Sebagai contoh, platform ride-hailing. Mereka datang dengan janji efisiensi, tetapi yang terjadi adalah eksploitasi driver dengan algoritma yang tidak transparan.
+
+Rina: Namun, kita juga tidak bisa menolak teknologi secara total. Yang penting adalah bagaimana kita mengambil kontrol. Di komunitas kami, kami menggunakan teknologi open-source dan mengadaptasinya sesuai kebutuhan lokal.
+
+Teknologi bukan musuh. Yang jadi masalah adalah siapa yang mengendalikan dan untuk kepentingan siapa teknologi itu dikembangkan.
+
+Budi: Saya mau menambahkan perspektif yang sedikit berbeda. Kritik terhadap teknologi itu penting, tapi kita juga harus realistis. Tidak semua komunitas punya kapasitas untuk develop teknologi sendiri.
+
+Mungkin yang kita butuhkan adalah kolaborasi - antara developer, komunitas lokal, dan pemerintah. Bukan isolasi atau penolakan teknologi.
+
+Dini: Betul sekali, Mas Budi. Oleh karena itu, edukasi literasi digital sangat penting. Komunitas harus diberdayakan untuk tidak hanya jadi pengguna pasif, tapi juga bisa berkontribusi dalam proses pengembangan teknologi.
+
+Moderator: Diskusi yang menarik. Ada beberapa poin penting yang muncul:
+- Teknologi harus disesuaikan dengan konteks lokal
+- Transparansi dan kontrol komunitas itu krusial
+- Kolaborasi multi-pihak diperlukan
+- Literasi digital adalah kunci pemberdayaan
+
+Terima kasih untuk semua yang berbagi hari ini.
+
+[Catatan: Transkrip ini telah diedit untuk kejelasan]

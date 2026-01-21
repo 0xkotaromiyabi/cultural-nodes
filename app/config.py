@@ -16,9 +16,16 @@ class Settings(BaseSettings):
     CHROMA_PERSIST_DIR: str = "./data/chroma"
     COLLECTION_NAME: str = "cultural_knowledge"
     
+    # Knowledge Store settings (Cultural Nodes)
+    KNOWLEDGE_STORE_PATH: str = "./data/cultural_knowledge.db"
+    
     # Chunking settings
     CHUNK_SIZE: int = 1000
     CHUNK_OVERLAP: int = 200
+    USE_DISCOURSE_CHUNKING: bool = True  # Enable discourse-aware chunking
+    
+    # Embedding versioning
+    EMBEDDING_VERSION: str = ""  # Auto-generated if empty
     
     # API settings
     API_HOST: str = "0.0.0.0"
@@ -26,6 +33,9 @@ class Settings(BaseSettings):
     
     # Retrieval settings
     RETRIEVAL_K: int = 4  # Number of documents to retrieve
+    
+    # Curatorial policy
+    CURATORIAL_POLICY: str = "cultural"  # Default policy
     
     class Config:
         env_file = ".env"
