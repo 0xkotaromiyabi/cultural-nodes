@@ -203,8 +203,8 @@ Setiap `source_type` otomatis mengekstrak metadata epistemik yang berbeda:
 ### 2. Konsistensi Penamaan
 
 Gunakan nama file yang deskriptif:
-- `penelitian-teknologi-digital-indonesia.pdf`
-- `diskusi-komunitas-tech-yogyakarta.txt`
+- `penelitian-kebudayaan-tanatoraja.pdf`
+- `diskusi-cultural-studies.txt`
 - `doc1.pdf`
 - `untitled.txt`
 
@@ -342,5 +342,6 @@ print(result['answer'])
 ---
 
 Selamat! Sistem Anda sekarang memiliki **Knowledge Base Management** yang lengkap dengan kesadaran epistemik!
+
 
 
