@@ -21,7 +21,7 @@ knowledge_base/
 
 ---
 
-## Web Interface (Recommended)
+## Web Interface
 
 ### Access
 
@@ -344,6 +344,7 @@ print(result['answer'])
 ---
 
 Selamat! Sistem Anda sekarang memiliki **Knowledge Base Management** yang lengkap dengan kesadaran epistemik!
+
 
 
 
