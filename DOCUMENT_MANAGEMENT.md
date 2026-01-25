@@ -2,7 +2,7 @@
 
 ## Overview
 
-Sistem sekarang memiliki fasilitas lengkap untuk mengelola dokumen berdasarkan kategori sumber (Community, Academic, Media, Archival). Ini memastikan setiap dokumen tersimpan di folder yang tepat untuk ekstraksi metadata epistemik yang akurat.
+Cultural-Nodes AI memiliki fasilitas untuk mengelola dokumen berdasarkan kategori sumber (Community, Academic, Media, Archival). Ini memastikan setiap dokumen tersimpan di folder yang tepat untuk ekstraksi metadata epistemik yang akurat.
 
 ---
 
@@ -344,6 +344,7 @@ print(result['answer'])
 ---
 
 Selamat! Sistem Anda sekarang memiliki **Knowledge Base Management** yang lengkap dengan kesadaran epistemik!
+
 
 
 
