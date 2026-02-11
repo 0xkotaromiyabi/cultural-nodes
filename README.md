@@ -1,3 +1,12 @@
+---
+title: Cultural Nodes
+emoji: 🏛️
+colorFrom: blue
+colorTo: purple
+sdk: docker
+pinned: false
+---
+
 # Cultural AI RAG System
 
 AI berbasis RAG (Retrieval-Augmented Generation) untuk **Cultural Studies**, **Sastra**, **Linguistik**, dan **Ilmu Bahasa**. Menggunakan Ollama dengan model llama3.1 untuk generasi teks dan ChromaDB untuk penyimpanan vektor.
