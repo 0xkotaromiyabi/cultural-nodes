@@ -68,6 +68,12 @@ app.add_middleware(
 # Include API routes
 app.include_router(router)
 
+from app.api.auth import router as auth_router
+app.include_router(auth_router)
+
+from app.api.curation import router as curation_router
+app.include_router(curation_router)
+
 
 # Mount static files
 if FRONTEND_DIR.exists():

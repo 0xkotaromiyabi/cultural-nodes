@@ -122,12 +122,33 @@ class KnowledgeStore:
             )
         """)
         
+        # Submissions table for curation workflow
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS submissions (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                title TEXT,
+                source_type TEXT NOT NULL,
+                content TEXT,
+                raw_url TEXT,
+                filename TEXT,
+                file_path TEXT,
+                category TEXT,
+                submitted_by TEXT,
+                status TEXT DEFAULT 'pending',
+                curator_id TEXT,
+                curator_note TEXT,
+                created_at TEXT NOT NULL,
+                updated_at TEXT NOT NULL
+            )
+        """)
+        
         # Create indices for common queries
         cursor.execute("CREATE INDEX IF NOT EXISTS idx_vector_id ON documents(vector_id)")
         cursor.execute("CREATE INDEX IF NOT EXISTS idx_source_type ON documents(source_type)")
         cursor.execute("CREATE INDEX IF NOT EXISTS idx_authority ON documents(authority_level)")
         cursor.execute("CREATE INDEX IF NOT EXISTS idx_epistemic ON documents(epistemic_origin)")
         cursor.execute("CREATE INDEX IF NOT EXISTS idx_language ON documents(language)")
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_submission_status ON submissions(status)")
         
         conn.commit()
         conn.close()
@@ -405,6 +426,7 @@ class KnowledgeStore:
             SELECT source_type, COUNT(*) as count
             FROM documents
             GROUP BY source_type
+            ORDER BY count DESC
         """)
         stats['by_source_type'] = {row[0]: row[1] for row in cursor.fetchall()}
         
@@ -413,6 +435,7 @@ class KnowledgeStore:
             SELECT authority_level, COUNT(*) as count
             FROM documents
             GROUP BY authority_level
+            ORDER BY count DESC
         """)
         stats['by_authority'] = {row[0]: row[1] for row in cursor.fetchall()}
         
@@ -424,8 +447,126 @@ class KnowledgeStore:
         cursor.execute("SELECT COUNT(*) FROM relations")
         stats['total_relations'] = cursor.fetchone()[0]
         
+        # Pending submissions
+        cursor.execute("SELECT COUNT(*) FROM submissions WHERE status = 'pending'")
+        stats['pending_submissions'] = cursor.fetchone()[0]
+        
         conn.close()
         return stats
+
+    def add_submission(self, data: Dict[str, Any]) -> int:
+        """Add a new submission.
+        
+        Args:
+            data: Submission data dictionary
+            
+        Returns:
+            Submission ID
+        """
+        conn = self._get_connection()
+        cursor = conn.cursor()
+        
+        now = datetime.utcnow().isoformat()
+        
+        cursor.execute("""
+            INSERT INTO submissions (
+                title, source_type, content, raw_url, filename, 
+                file_path, category, submitted_by, status, created_at, updated_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending', ?, ?)
+        """, (
+            data.get("title"),
+            data.get("source_type"),
+            data.get("content"),
+            data.get("raw_url"),
+            data.get("filename"),
+            data.get("file_path"),
+            data.get("category", "general"),
+            data.get("submitted_by", "anonymous"),
+            now,
+            now
+        ))
+        
+        submission_id = cursor.lastrowid
+        conn.commit()
+        conn.close()
+        return submission_id
+
+    def get_submissions(self, status: Optional[str] = None) -> List[Dict]:
+        """Get submissions, optionally filtered by status.
+        
+        Args:
+            status: Filter by status (pending, approved, rejected)
+            
+        Returns:
+            List of submission dictionaries
+        """
+        conn = self._get_connection()
+        cursor = conn.cursor()
+        
+        if status:
+            cursor.execute("SELECT * FROM submissions WHERE status = ? ORDER BY created_at DESC", (status,))
+        else:
+            cursor.execute("SELECT * FROM submissions ORDER BY created_at DESC")
+            
+        rows = cursor.fetchall()
+        submissions = [dict(row) for row in rows]
+        
+        conn.close()
+        return submissions
+
+    def get_submission_by_id(self, submission_id: int) -> Optional[Dict]:
+        """Get a submission by ID.
+        
+        Args:
+            submission_id: Submission ID
+            
+        Returns:
+            Submission dictionary or None
+        """
+        conn = self._get_connection()
+        cursor = conn.cursor()
+        
+        cursor.execute("SELECT * FROM submissions WHERE id = ?", (submission_id,))
+        row = cursor.fetchone()
+        
+        conn.close()
+        if row:
+            return dict(row)
+        return None
+
+    def update_submission_status(
+        self, 
+        submission_id: int, 
+        status: str, 
+        curator_id: str, 
+        note: Optional[str] = None
+    ) -> bool:
+        """Update submission status.
+        
+        Args:
+            submission_id: Submission ID
+            status: New status (approved/rejected)
+            curator_id: ID of curator
+            note: Optional note
+            
+        Returns:
+            True if successful
+        """
+        conn = self._get_connection()
+        cursor = conn.cursor()
+        
+        now = datetime.utcnow().isoformat()
+        
+        cursor.execute("""
+            UPDATE submissions 
+            SET status = ?, curator_id = ?, curator_note = ?, updated_at = ?
+            WHERE id = ?
+        """, (status, curator_id, note, now, submission_id))
+        
+        success = cursor.rowcount > 0
+        conn.commit()
+        conn.close()
+        return success
 
 
 # Global instance

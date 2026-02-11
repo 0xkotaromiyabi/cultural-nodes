@@ -42,6 +42,7 @@ chmod +x scripts/setup_ollama.sh
 ```
 
 Atau manual:
+
 ```bash
 ollama pull llama3.1
 ollama pull nomic-embed-text
@@ -89,6 +90,7 @@ Server berjalan di `http://localhost:8000`
 ### Contoh Request
 
 **Chat:**
+
 ```bash
 curl -X POST http://localhost:8000/api/chat \
   -H "Content-Type: application/json" \
@@ -96,6 +98,7 @@ curl -X POST http://localhost:8000/api/chat \
 ```
 
 **Ingest Text:**
+
 ```bash
 curl -X POST http://localhost:8000/api/ingest/text \
   -H "Content-Type: application/json" \
@@ -109,6 +112,14 @@ curl -X POST http://localhost:8000/api/ingest/text \
 ## Interactive Docs
 
 Buka `http://localhost:8000/docs` untuk Swagger UI interaktif.
+
+## Curation & Contribution
+
+System ini memiliki workflow kurasi untuk menjamin kualitas data:
+
+- **Dokumentasi Lengkap:** [CURATION_GUIDE.md](CURATION_GUIDE.md)
+- **Contribution Portal:** `http://localhost:8000/static/manage_knowledge.html`
+- **Curator Dashboard:** `http://localhost:8000/static/curator_login.html` (Login: `admin`/`admin123`)
 
 ## Project Structure
 

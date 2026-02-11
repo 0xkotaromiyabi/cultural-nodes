@@ -1,0 +1,51 @@
+<!DOCTYPE html> 
+<html lang="id"> 
+    <head> 
+        <meta charset="UTF-8"/> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/> 
+        <title>Curator Login - Cultural Knowledge Base</title>         
+        <style>body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: linear-gradient(135deg, #b4b4b4 0%, #fbfbfb 100%); height: 100vh; display: flex; align-items: center; justify-content: center; margin: 0; } .login-card { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.47); width: 100%; max-width: 400px; } h1 { color: #333; margin-bottom: 30px; text-align: center; font-size: 24px; } input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; } button { width: 100%; padding: 12px; background: #667eea; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; transition: background 0.3s; } button:hover { background: #5a6fd1; } .error { color: red; text-align: center; margin-top: 10px; font-size: 14px; }</style>         
+        <link href="../../css/theme.css" rel="stylesheet" type="text/css"/>
+    </head>     
+    <body> 
+        <div class="login-card"> 
+            <h1>Curator Access</h1> 
+            <input type="text" id="username" placeholder="Username"/> 
+            <input type="password" id="password" placeholder="Password"/> 
+            <button onclick="login()">Login</button>             
+            <div id="error" class="error"></div>             
+        </div>         
+        <script>
+        async function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorDiv = document.getElementById('error');
+
+            errorDiv.textContent = 'Authenticating...';
+
+            try {
+                const res = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await res.json();
+
+                if (res.ok) {
+                    // Store session data
+                    localStorage.setItem('user_id', data.user_id);
+                    localStorage.setItem('user_role', data.role);
+                    localStorage.setItem('auth_token', data.token);
+
+                    window.location.href = '/static/curator_dashboard.html';
+                } else {
+                    errorDiv.textContent = data.detail || 'Login failed';
+                }
+            } catch (e) {
+                errorDiv.textContent = 'Network error';
+            }
+        }
+    </script>         
+    </body>     
+</html>

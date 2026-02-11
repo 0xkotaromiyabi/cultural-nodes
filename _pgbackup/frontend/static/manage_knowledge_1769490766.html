@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cultural Knowledge Base - Manage Documents</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-content h1 {
+            color: #667eea;
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .role-switcher {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #f0f0f0;
+            padding: 5px;
+            border-radius: 10px;
+        }
+
+        .role-btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .role-btn.active {
+            background: #fff;
+            color: #667eea;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Content Sections */
+        .content-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            display: none;
+            /* Hidden by default */
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        /* Forms (Same as before) */
+        .section-title {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .source-type-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .source-card {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .source-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .source-card.selected {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+        }
+
+        input[type="file"],
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+
+        .file-upload-area {
+            background: #f8f9fa;
+            border: 2px dashed #d0d0d0;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Curator Dashboard Styles */
+        .submission-card {
+            background: white;
+            border: 1px solid #eee;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: all 0.2s;
+        }
+
+        .submission-card:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .sub-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .sub-type {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            padding: 4px 8px;
+            background: #e3f2fd;
+            color: #1565c0;
+            border-radius: 6px;
+        }
+
+        .sub-date {
+            font-size: 12px;
+            color: #888;
+        }
+
+        .sub-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .sub-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn-approve {
+            background: #4caf50;
+            flex: 1;
+        }
+
+        .btn-reject {
+            background: #ef5350;
+            flex: 1;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .tab.active {
+            background: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-content">
+                <h1>📚 Cultural Knowledge Base</h1>
+                <p class="subtitle">Contribution Portal</p>
+            </div>
+            <div>
+                <a href="/static/curator_login.html" style="text-decoration: none;">
+                    <button class="role-btn" style="background: rgba(255,255,255,0.2);">🔐 Curator Login</button>
+                </a>
+            </div>
+        </div>
+
+        <!-- CONTRIBUTOR VIEW -->
+        <div id="view-contributor" class="content-section active">
+            <div class="tabs">
+                <div class="tab active" onclick="switchTab('file')">📄 Upload File</div>
+                <div class="tab" onclick="switchTab('text')">📝 Input Text</div>
+            </div>
+
+            <div id="file-tab" class="tab-content active">
+                <h2 class="section-title">Submit Document for Review</h2>
+
+                <div class="form-group">
+                    <label>Source Category</label>
+                    <div class="source-type-grid">
+                        <div class="source-card" onclick="selectSource('community', this)">
+                            <div class="source-name">Community</div>
+                        </div>
+                        <div class="source-card" onclick="selectSource('academic', this)">
+                            <div class="source-name">Academic</div>
+                        </div>
+                        <div class="source-card" onclick="selectSource('media', this)">
+                            <div class="source-name">Media</div>
+                        </div>
+                        <div class="source-card" onclick="selectSource('archival', this)">
+                            <div class="source-name">Archival</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="file-upload-area" id="dropzone">
+                        <p><strong>Drag & drop file here</strong></p>
+                        <input type="file" id="file-input" accept=".pdf,.md,.markdown,.txt" style="display: none;">
+                        <div id="file-name" style="margin-top: 10px; color: #667eea;"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <input type="text" id="file-title" placeholder="Document Title (Required)">
+                </div>
+
+                <button onclick="submitFile()">Submit for Curation</button>
+            </div>
+
+            <div id="text-tab" class="tab-content" style="display: none;">
+                <h2 class="section-title">Submit Text for Review</h2>
+                <!-- Similar source select -->
+                <div class="form-group">
+                    <label>Source Category</label>
+                    <div class="source-type-grid">
+                        <div class="source-card" onclick="selectSourceText('community', this)">
+                            <div class="source-name">Community</div>
+                        </div>
+                        <div class="source-card" onclick="selectSourceText('academic', this)">
+                            <div class="source-name">Academic</div>
+                        </div>
+                        <div class="source-card" onclick="selectSourceText('media', this)">
+                            <div class="source-name">Media</div>
+                        </div>
+                        <div class="source-card" onclick="selectSourceText('archival', this)">
+                            <div class="source-name">Archival</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <input type="text" id="text-title" placeholder="Document Title">
+                </div>
+                <div class="form-group">
+                    <textarea id="text-content" placeholder="Content..."></textarea>
+                </div>
+                <button onclick="submitText()">Submit for Curation</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8000/api';
+        let selectedSourceType = '';
+        let selectedSourceTypeText = '';
+        let selectedFile = null;
+
+        // Tab Switching
+        function switchTab(tab) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.getElementById('file-tab').style.display = tab === 'file' ? 'block' : 'none';
+            document.getElementById('text-tab').style.display = tab === 'text' ? 'block' : 'none';
+            event.target.classList.add('active');
+        }
+
+        // Source Selection
+        function selectSource(type, el) {
+            document.querySelectorAll('#file-tab .source-card').forEach(c => c.classList.remove('selected'));
+            el.classList.add('selected');
+            selectedSourceType = type;
+        }
+
+        function selectSourceText(type, el) {
+            document.querySelectorAll('#text-tab .source-card').forEach(c => c.classList.remove('selected'));
+            el.classList.add('selected');
+            selectedSourceTypeText = type;
+        }
+
+        // File Input
+        const dropzone = document.getElementById('dropzone');
+        const fileInput = document.getElementById('file-input');
+        dropzone.addEventListener('click', () => fileInput.click());
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length) {
+                selectedFile = e.target.files[0];
+                document.getElementById('file-name').textContent = `📎 ${selectedFile.name}`;
+            }
+        });
+
+        // API: Submit File
+        async function submitFile() {
+            if (!selectedFile || !selectedSourceType) {
+                alert("Please select a file and source type.");
+                return;
+            }
+
+            const title = document.getElementById('file-title').value;
+            if (!title) {
+                alert("Title is required.");
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('file', selectedFile);
+            formData.append('title', title);
+            formData.append('source_type', selectedSourceType);
+
+            // Pseudo-Auth Headers for Contributor
+            const headers = {
+                'X-User-ID': 'anonymous_user',
+                'X-User-Role': 'contributor'
+            };
+
+            try {
+                const res = await fetch(`${API_BASE}/curation/submit/file`, {
+                    method: 'POST',
+                    headers: headers,
+                    body: formData
+                });
+                if (res.ok) {
+                    alert("Submission received! Pending curator review.");
+                    selectedFile = null;
+                    document.getElementById('file-name').textContent = "";
+                    document.getElementById('file-title').value = "";
+                } else {
+                    const err = await res.json();
+                    alert("Error: " + err.detail);
+                }
+            } catch (e) { alert("Network error"); }
+        }
+
+        // API: Submit Text
+        async function submitText() {
+            const title = document.getElementById('text-title').value;
+            const content = document.getElementById('text-content').value;
+
+            if (!title || !content || !selectedSourceTypeText) {
+                alert("Please fill all fields.");
+                return;
+            }
+
+            const data = {
+                title, content,
+                source_type: selectedSourceTypeText,
+                category: 'general'
+            };
+
+            const headers = {
+                'Content-Type': 'application/json',
+                'X-User-ID': 'anonymous_user',
+                'X-User-Role': 'contributor'
+            };
+
+            try {
+                const res = await fetch(`${API_BASE}/curation/submit`, {
+                    method: 'POST',
+                    headers: headers,
+                    body: JSON.stringify(data)
+                });
+                if (res.ok) {
+                    alert("Submission received! Pending curator review.");
+                    document.getElementById('text-title').value = "";
+                    document.getElementById('text-content').value = "";
+                } else {
+                    const err = await res.json();
+                    alert("Error: " + err.detail);
+                }
+            } catch (e) { alert("Network error"); }
+        }
+    </script>
+</body>
+
+</html>

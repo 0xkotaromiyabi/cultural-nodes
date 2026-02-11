@@ -1,15 +1,7 @@
-FROM llama3.1:8b
+#!/bin/bash
 
-# ===== OPTIMASI UTAMA =====
-PARAMETER num_ctx 3072
-PARAMETER temperature 0.6
-PARAMETER top_p 0.9
-PARAMETER repeat_penalty 1.1
-
-SYSTEM You are a cultural analysis AI that answers concisely and thoughtfully.
-
-MESSAGE user Hello
-MESSAGE assistant """
+# Display ASCII Banner
+cat << 'EOF'
    ___      _ _                  _   _   _         _       
   / __\_  _| | |_ _   _ _ __ __ _| | | \ | | ___  | |_ ___ 
  / /  | | | | | __| | | | '__/ _` | | |  \| |/ _ \ | __/ __|
@@ -18,5 +10,7 @@ MESSAGE assistant """
                                                              
           Cultural AI - Knowledge Assistant
 
-Hello! How can I assist you today?
-"""
+EOF
+
+# Run Ollama model
+ollama run cultural-nodes-llama "$@"
