@@ -36,13 +36,13 @@ ENV/
 .env
 .env.local
 
-# ChromaDB data
-data/chroma/
+# ChromaDB data (tracked for Hugging Face deployment)
+# data/chroma/
 
-# Knowledge base documents (user-specific)
-knowledge_base/pdf/*
-knowledge_base/markdown/*
-knowledge_base/text/*
+# Knowledge base documents (tracked for Hugging Face deployment)
+# knowledge_base/pdf/*
+# knowledge_base/markdown/*
+# knowledge_base/text/*
 !knowledge_base/pdf/.gitkeep
 !knowledge_base/markdown/.gitkeep
 !knowledge_base/text/.gitkeep
